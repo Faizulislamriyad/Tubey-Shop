@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Tubey Shop — YouTube Growth SaaS</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- ========== HEADER ========== -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <img
+          src="logo.jpg"
+          alt="Tubey Shop"
+          onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'14\' fill=\'%238B5CF6\'/%3E%3Ctext x=\'32\' y=\'44\' font-family=\'Arial\' font-size=\'30\' font-weight=\'bold\' fill=\'white\' text-anchor=\'middle\'%3ET%3C/text%3E%3C/svg%3E'"
+        />
+      </div>
+      <div class="brand-text">
+        <h1>Tubey Shop</h1>
+        <span class="brand-tag">Growth SaaS</span>
+      </div>
+    </div>
+
+    <nav class="nav-pills">
+      <button class="nav-pill active" data-page="shop"><i class="fa-solid fa-store"></i><span>Shop</span></button>
+      <button class="nav-pill" data-page="analysis"><i class="fa-solid fa-chart-line"></i><span>Analysis</span></button>
+      <button class="nav-pill" data-page="prediction"><i class="fa-solid fa-wand-magic-sparkles"></i><span>Prediction</span></button>
+    </nav>
+
+    <button id="cartBtn" class="cart-btn">
+      <i class="fa-solid fa-cart-shopping"></i><span>Cart</span>
+      <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <!-- ========== SHOP PAGE ========== -->
+  <main id="shop-page" class="page active">
+
+    <!-- Bind Channel -->
+    <section class="card bind-card">
+      <div class="bind-layout">
+        <div class="bind-content">
+          <div class="card-head">
+            <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
+            <div>
+              <h2>Bind Your YouTube Channel</h2>
+              <p class="card-sub">Enter your channel handle and press <kbd>Enter</kbd></p>
+            </div>
+          </div>
+
+          <div class="bind-row">
+            <input type="text" id="handleInput" placeholder="@yourhandle" value="@" autocomplete="off" />
+            <button id="bindBtn" class="btn btn-primary">
+              <i class="fa-solid fa-link"></i> Bind Channel
+            </button>
+          </div>
+
+          <p id="bindStatus" class="status-msg"></p>
+        </div>
+        <img src="falcon.png" alt="Falcon" class="falcon-mascot" onerror="this.style.display='none'" />
+      </div>
+    </section>
+
+    <!-- Channel Stats -->
+    <section id="channelStats" class="card stats-card hidden">
+      <div class="channel-banner" id="channelBanner">
+        <img id="bannerImg" alt="" />
+        <div class="banner-gradient"></div>
+      </div>
+      <div class="channel-profile-row">
+        <img id="channelAvatar" class="channel-avatar" alt="" />
+        <div class="channel-profile-info">
+          <h2 id="channelTitle">Channel</h2>
+          <p id="channelDesc" class="card-sub"></p>
+        </div>
+        <span class="live-dot" title="Live"></span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-value" id="statSubs">0</div>
+          <div class="stat-label">Subscribers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-eye"></i></div>
+          <div class="stat-value" id="statViews">0</div>
+          <div class="stat-label">Total Views</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="stat-value" id="statVideos">0</div>
+          <div class="stat-label">Videos</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Selector -->
+    <section id="videoSection" class="card hidden">
+      <div class="card-head">
+        <div class="card-icon"><i class="fa-solid fa-film"></i></div>
+        <div>
+          <h2>Select a Video</h2>
+          <p class="card-sub">Click to select · click again to deselect</p>
+        </div>
+      </div>
+      <div class="video-list" id="videoList"></div>
+    </section>
+
+    <!-- Custom Buy Section -->
+    <section id="customBuySection" class="card hidden">
+      <div class="card-head">
+        <div class="card-icon"><i class="fa-solid fa-sliders"></i></div>
+        <div>
+          <h2>Custom Order <small id="customVideoLabel" class="video-label"></small></h2>
+          <p class="card-sub">Views &amp; Likes → video · Subscribers → channel</p>
+        </div>
+      </div>
+
+      <div class="custom-form">
+        <div class="custom-input-row">
+          <label><i class="fa-solid fa-eye"></i> Views <small>@ Tk 0.05 each</small></label>
+          <input type="number" id="customViews" min="0" value="0" placeholder="0" />
+        </div>
+        <div class="custom-input-row">
+          <label><i class="fa-solid fa-thumbs-up"></i> Likes <small>@ Tk 0.30 each</small></label>
+          <input type="number" id="customLikes" min="0" value="0" placeholder="0" />
+        </div>
+        <div class="custom-input-row">
+          <label><i class="fa-solid fa-users"></i> Subscribers <small>@ Tk 2.00 each</small></label>
+          <input type="number" id="customSubs" min="0" value="0" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="custom-footer">
+        <div class="custom-total-display">
+          <span>Total</span>
+          <strong>Tk <span id="customTotal">0.00</span></strong>
+        </div>
+        <button class="btn btn-primary" id="addCustomBtn">
+          <i class="fa-solid fa-plus"></i> Add to Cart
+        </button>
+      </div>
+    </section>
+
+    <!-- Packs -->
+    <section class="card packs-card">
+      <div class="card-head">
+        <div class="card-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <div>
+          <h2>Growth Packs</h2>
+          <p class="card-sub">Channel-level boost packages</p>
+        </div>
+      </div>
+      <div class="packs-grid" id="packsGrid"></div>
+    </section>
+  </main>
+
+  <!-- ========== ANALYSIS PAGE ========== -->
+  <main id="analysis-page" class="page">
+    <section class="card">
+      <div class="card-head">
+        <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <div><h2>Channel Analysis</h2><p class="card-sub">Deep‑dive into your performance</p></div>
+      </div>
+
+      <div id="analysisEmpty" class="empty-state">
+        <img src="falcon.png" alt="" class="falcon-empty" onerror="this.style.display='none'" />
+        <p>Bind a channel first to see analysis.</p>
+      </div>
+
+      <div id="analysisContent" class="hidden">
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-value" id="anaSubs">0</div>
+            <div class="stat-label">Subscribers</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fa-solid fa-eye"></i></div>
+            <div class="stat-value" id="anaViews">0</div>
+            <div class="stat-label">Total Views</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-icon"><i class="fa-solid fa-video"></i></div>
+            <div class="stat-value" id="anaVideos">0</div>
+            <div class="stat-label">Videos</div>
+          </div>
+        </div>
+
+        <h3 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Videos</h3>
+        <div id="recentVideos" class="video-feed"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== PREDICTION PAGE ========== -->
+  <main id="prediction-page" class="page">
+    <section class="card">
+      <div class="card-head">
+        <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div><h2>Future Predictions</h2><p class="card-sub">AI‑powered growth &amp; monetization forecast</p></div>
+      </div>
+
+      <div id="predictionEmpty" class="empty-state">
+        <img src="falcon.png" alt="" class="falcon-empty" onerror="this.style.display='none'" />
+        <p>Bind a channel first to unlock predictions.</p>
+      </div>
+
+      <div id="predictionContent" class="hidden">
+
+        <div class="pred-box">
+          <h3><i class="fa-solid fa-sack-dollar"></i> Monetization Readiness</h3>
+          <p id="monetizationText" class="mon-text"></p>
+
+          <!-- Path A -->
+          <div class="path-label">
+            <i class="fa-solid fa-award"></i> Path A — Standard
+            <small>1,000 subs + 4,000 watch hours</small>
+          </div>
+          <div class="progress-group">
+            <div class="progress-item">
+              <div class="progress-label">
+                <span><i class="fa-solid fa-users"></i> Subscribers</span>
+                <span id="subsProgressLabel">0 / 1,000</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="subsProgress"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label">
+                <span><i class="fa-solid fa-clock"></i> Watch Hours</span>
+                <span id="hoursProgressLabel">0 / 4,000</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="hoursProgress"></div></div>
+            </div>
+          </div>
+
+          <!-- Path B -->
+          <div class="path-label" style="margin-top: 1.5rem;">
+            <i class="fa-solid fa-bolt"></i> Path B — Shorts
+            <small>1,000 subs + 10M shorts views (90 days)</small>
+          </div>
+          <div class="progress-group">
+            <div class="progress-item">
+              <div class="progress-label">
+                <span><i class="fa-solid fa-users"></i> Subscribers</span>
+                <span id="subsProgressLabel2">0 / 1,000</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="subsProgress2"></div></div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-label">
+                <span><i class="fa-solid fa-bolt"></i> Shorts Views (90d)</span>
+                <span id="shortsProgressLabel">0 / 10M</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="shortsProgress"></div></div>
+            </div>
+          </div>
+
+          <p class="forecast-note" style="margin-top: 1rem;">
+            <i class="fa-solid fa-circle-info"></i>
+            Shorts views are estimated from videos ≤ 60s published in the last 90 days.
+          </p>
+        </div>
+
+        <div class="pred-box">
+          <h3><i class="fa-solid fa-arrow-trend-up"></i> Growth Forecast</h3>
+          <div class="forecast-grid">
+            <div class="forecast-card">
+              <div class="forecast-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="forecast-label">Next 1 Month</div>
+              <div class="forecast-values">
+                <span><i class="fa-solid fa-users"></i> <b id="pred1MSubs">0</b></span>
+                <span><i class="fa-solid fa-eye"></i> <b id="pred1MViews">0</b></span>
+              </div>
+            </div>
+            <div class="forecast-card">
+              <div class="forecast-icon"><i class="fa-solid fa-calendar"></i></div>
+              <div class="forecast-label">Next 1 Year</div>
+              <div class="forecast-values">
+                <span><i class="fa-solid fa-users"></i> <b id="pred1YSubs">0</b></span>
+                <span><i class="fa-solid fa-eye"></i> <b id="pred1YViews">0</b></span>
+              </div>
+            </div>
+          </div>
+          <p class="forecast-note">
+            <i class="fa-solid fa-circle-info"></i>
+            Estimates based on 5% monthly subscriber growth &amp; 3% view growth.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== CART MODAL ========== -->
+  <div id="cartModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose"><i class="fa-solid fa-xmark"></i></button>
+      <h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2>
+      <div id="cartItems" class="cart-list"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total</span>
+          <strong>Tk <span id="cartTotal">0.00</span></strong>
+        </div>
+        <button id="checkoutBtn" class="btn btn-primary btn-full">
+          <i class="fa-solid fa-lock"></i> Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ORDER SUCCESS MODAL ========== -->
+  <div id="orderSuccessModal" class="modal hidden">
+    <div class="modal-content order-success">
+      <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <h2>Order Placed!</h2>
+      <p>Your order is on the place. Please wait a few minutes to update status.</p>
+      <p class="small">Your bill is being generated...</p>
+      <button class="btn btn-primary btn-full" id="downloadBillBtn">
+        <i class="fa-solid fa-download"></i> Re-download Bill
+      </button>
+      <button class="btn btn-ghost btn-full" id="closeSuccessBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- ========== TOASTS ========== -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
